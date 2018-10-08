@@ -1,0 +1,2 @@
+g++ -o HW2 HW2.cpp Reader.cpp
+./HW2
