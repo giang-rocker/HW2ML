@@ -189,7 +189,23 @@ int main () {
 	for (int i =0; i < 10; i++)
 		for (int j =0; j < 784; j++)
 			Gausse_Variance[i][j] = SUM_Distribution[i][j]/P_C_Count[i] ;
-	double constPi = log((sqrt(2*PI)));
+
+	//FIXED MEAN  VAR OPTION
+	/*
+	double meanVar = 0;
+	for (int i =0; i < 10; i++)
+		for (int j =0; j < 784; j++)
+			meanVar+=Gausse_Variance[i][j];
+	meanVar/=(10*784);
+
+	for (int i =0; i < 10; i++)
+		for (int j =0; j < 784; j++)
+			Gausse_Variance[i][j] = meanVar;
+	 // END OF FIXED MEAN VAR
+	
+	*/
+		
+	double constPi = -log(2*PI)/2.0;
 	// CONTINOUS CLASSIFY TESTING SET
 	classify =-1 ;
 	countCorrect =0 ;
@@ -197,15 +213,15 @@ int main () {
 		classify =-1;
 		double max = -999999999;
 		for (int j=0; j<10; j++) { // for each class, calculate the PCX
-			double currentVal =   log (((P_C_Count[j]*1.0)/trainingLabelSet.size())  ) - constPi; // init= 0 : acourate = 85.14%
+			double currentVal =   log (((P_C_Count[j]*1.0)/trainingLabelSet.size())  ) ; // init= 0 : acourate = 85.14%
 			for (int k=0; k < 784; k++) { // for each pixcel
 			if (((Gausse_Variance[j][k]) -0.0f)>0.00001f) {
-            	double tempVal = -(pow(testingImageSet[i][k] - Gausse_Mean[j][k] ,2)) / (2 * pow(Gausse_Variance[j][k],2));
-                currentVal += (( (tempVal))  - log(Gausse_Variance[j][k] ));
+            	double tempVal = constPi - (pow(testingImageSet[i][k] - Gausse_Mean[j][k] ,2)) / (2 * Gausse_Variance[j][k]);
+                currentVal += (( (tempVal))  - log(sqrt(Gausse_Variance[j][k] ))/2.0);
             }
 			else {
-            //	double tempVal = -(pow(testingImageSet[j][k],2) ); 
-            //    currentVal += (tempVal);
+            	//double tempVal = -(pow(testingImageSet[j][k],2) ); 
+                //currentVal += (tempVal);
                 }                    																					
         	} // for k 
 	
@@ -221,7 +237,7 @@ int main () {
 	 
 	} // for i 
 	cout << "CONTINOUS" << endl;
-	cout << countCorrect << "/" << testingLabelSet.size() << " <=>  " << ( (countCorrect*100.0)/testingLabelSet.size()) <<"%  Error: " <<  ( ((testingLabelSet.size()-countCorrect)*100.0)/testingLabelSet.size()) <<"%"<< endl;
+	cout << countCorrect << "/" << testingLabelSet.size() << " <=>  " << ( (countCorrect*100.0)/testingLabelSet.size()) <<"%  Error: " <<  ( ((testingLabelSet.size()-countCorrect)*100.0)/testingLabelSet.size()) <<"%"<< endl << endl;
 	
 	return 0;
 }
