@@ -1,0 +1,2 @@
+git fetch origin
+git cherry master origin/master
