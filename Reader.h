@@ -10,7 +10,7 @@
 #ifndef READER_H
 #define READER_H
 
-#define BIN 32
+#define BIN 256
 #define PI 3.14
 
 #include <vector>
