@@ -11,7 +11,7 @@ string tempStr;
 double a, b;
 int nSize =0;
 int main() {
-	freopen ("test.txt","r",stdin);
+	freopen ("test2.txt","r",stdin);
 	
 	while (cin >> tempStr)  {
 		sequence.push_back(tempStr);
@@ -38,13 +38,14 @@ int main() {
 		
 		likelihood =  (countHead*1.0f) / sequence[ith].size();
 		cout <<"\tLikelihood:\t" << likelihood << endl;
-		betaPrior = ((a - 1) / (a + b - 2)); 
-		posteriorProb = likelihood * betaPrior;
-		cout <<"\tPosterior Prob:\t" << posteriorProb <<endl; 
+		//posteriorProb = ((countHead+a - 1) / (sequence[ith].size()+a + b - 2)); 
+		posteriorProb = ((countHead+a) / (sequence[ith].size()+a + b)); 
+		//posteriorProb = likelihood * betaPrior;
+		cout <<"\tposteriorProb:\t" << posteriorProb <<endl; 
 		
-		a = a + countHead; 
-        b = b + (sequence[ith].size()) - countHead;
-        cout << "\tBeta Posterior:\ta: " << a << "\n\t\t\tb: " << b << endl;
+		a += countHead; 
+        b += (sequence[ith].size()) - countHead;
+        cout << "\tBeta prior:\ta: " << a << "\n\t\t\tb: " << b << endl;
 	}
 	
 	
